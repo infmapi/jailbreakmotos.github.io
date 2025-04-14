@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GlassMorph Control Panel</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1400px;
+      width: 100%;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    h1 {
+      margin-bottom: 40px;
+      font-size: 2.5em;
+    }
+    
+    /* Ride Button at the Top - White / Black Theme */
+    .ride-button {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      border-radius: 50px;
+      padding: 20px 40px;
+      font-size: 1.6em;
+      cursor: pointer;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 40px;
+    }
+    
+    .ride-button:hover {
+      background-color: #eaeaea;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Glass Morphism Card for Sliders */
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 30px;
+      margin-bottom: 40px;
+    }
+    
+    /* Slider Container */
+    .slider-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      text-align: left;
+    }
+    
+    .slider-box {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .slider-box label {
+      font-size: 1.4em;
+      margin-bottom: 10px;
+    }
+    
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 12px;
+      border-radius: 6px;
+      background: #333;
+      outline: none;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      transition: transform 0.2s ease;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      border: 2px solid #ccc;
+      transition: transform 0.2s ease;
+    }
+    
+    input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Rounded KW Display */
+    .kw-display {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 20px;
+      width: 150px;
+      margin: 0 auto;
+      font-size: 1.8em;
+      font-weight: bold;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .kw-display:hover {
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Ride Button -->
+    <button class="ride-button" onclick="ride()">Ride</button>
+    
+    <h1>Glass Morph Control Panel</h1>
+    
+    <!-- Sliders Section -->
+    <div class="glass slider-container">
+      <div class="slider-box">
+        <label for="horsepower">Hosepower (0 - 80)</label>
+        <input type="range" id="horsepower" name="horsepower" min="0" max="80" value="40">
+        <span id="horsepowerValue">40</span>
+      </div>
+      <div class="slider-box">
+        <label for="torque">Torque (5 - 938 nm)</label>
+        <input type="range" id="torque" name="torque" min="5" max="938" value="471">
+        <span id="torqueValue">471</span>
+      </div>
+      <div class="slider-box">
+        <label for="regen">Regen (0 - 100%)</label>
+        <input type="range" id="regen" name="regen" min="0" max="100" value="50">
+        <span id="regenValue">50%</span>
+      </div>
+    </div>
+    
+    <!-- KW Display -->
+    <div class="kw-display" id="kwDisplay">29.8 KW</div>
+  </div>
+  
+  <script>
+    // Ride button functionality
+    function ride() {
+      alert("Let's Ride!");
+    }
+    
+    // Reference sliders and KW display
+    const horsepowerSlider = document.getElementById('horsepower');
+    const torqueSlider = document.getElementById('torque');
+    const regenSlider = document.getElementById('regen');
+    const kwDisplay = document.getElementById('kwDisplay');
+    
+    // Function to update the KW display based on current horsepower.
+    // Conversion: 1 horsepower = 0.7457 kilowatts.
+    function updateKwDisplay() {
+      const horsepower = Number(horsepowerSlider.value);
+      const kw = (horsepower * 0.7457).toFixed(1);
+      kwDisplay.innerText = `${kw} KW`;
+    }
+    
+    // Update slider displays and KW value when sliders move.
+    horsepowerSlider.addEventListener('input', function() {
+      document.getElementById('horsepowerValue').innerText = this.value;
+      updateKwDisplay();
+    });
+    
+    torqueSlider.addEventListener('input', function() {
+      document.getElementById('torqueValue').innerText = this.value;
+    });
+    
+    regenSlider.addEventListener('input', function() {
+      document.getElementById('regenValue').innerText = this.value + '%';
+    });
+    
+    // Set initial KW display value
+    updateKwDisplay();
+  </script>
+</body>
+</html>
